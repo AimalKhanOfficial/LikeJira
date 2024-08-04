@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Swimlane from "./SwimLane";
 import Header from "./Header";
+import TicketPopup from "./TicketPopup";
 
 function Board(props) {
     const [TICKETS_IN_TODO, setTicketsInToDo] = useState([]);
@@ -8,6 +9,13 @@ function Board(props) {
     const [TICKETS_READY_FOR_REVIEW, setTicketsInReadyForReview] = useState([]);
     const [TICKETS_IN_REVIEW, setTicketsInReview] = useState([]);
     const [TICKETS_IN_DONE_OR_REJECTED, setTicketsInDoneOrRejected] = useState([]);
+    const [displayPopup, setDisplayPopup] = useState(false);
+    const [ticketSelected, setTicketSelected] = useState({});
+
+    const onClickTicket = (ticketDetails) => {
+        setTicketSelected(ticketDetails);
+        setDisplayPopup(true);
+    }
 
     const setState = (toDo, inProgress, readyForReview, inReview, doneOrRejected) => {
         setTicketsInToDo(toDo);
@@ -83,16 +91,21 @@ function Board(props) {
     }, [])
 
     return (
-        <div>
-            <Header filterByText={filterByText} />
-            <div className="flex justify-around">
-                <Swimlane title={'To Do'} tickets={TICKETS_IN_TODO} />
-                <Swimlane title={'In Progress'} tickets={TICKETS_IN_PROGRESS} />
-                <Swimlane title={'Ready for Review'} tickets={TICKETS_READY_FOR_REVIEW} />
-                <Swimlane title={'In Review'} tickets={TICKETS_IN_REVIEW} />
-                <Swimlane title={'Done/Rejected'} tickets={TICKETS_IN_DONE_OR_REJECTED} />
+        <>
+            <div style={{ backgroundColor: displayPopup ? 'rgba(0,0,0,0.5)' : '#FFFFFF', zIndex: displayPopup ? '1' : '100' }}>
+                <Header filterByText={filterByText} />
+                <div className="flex justify-around">
+                    <Swimlane title={'To Do'} tickets={TICKETS_IN_TODO} onClickTicket={onClickTicket} />
+                    <Swimlane title={'In Progress'} tickets={TICKETS_IN_PROGRESS} onClickTicket={onClickTicket} />
+                    <Swimlane title={'Ready for Review'} tickets={TICKETS_READY_FOR_REVIEW} onClickTicket={onClickTicket} />
+                    <Swimlane title={'In Review'} tickets={TICKETS_IN_REVIEW} onClickTicket={onClickTicket} />
+                    <Swimlane title={'Done/Rejected'} tickets={TICKETS_IN_DONE_OR_REJECTED} onClickTicket={onClickTicket} />
+                </div>
             </div>
-        </div>
+            <div style={{ display: displayPopup ? 'block' : 'none' }}>
+                <TicketPopup ticketSelected={ticketSelected} setDisplayPopup={setDisplayPopup} displayPopup={displayPopup} />
+            </div>
+        </>
     );
 }
 export default Board;

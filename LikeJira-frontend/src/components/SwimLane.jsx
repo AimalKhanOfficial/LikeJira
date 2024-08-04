@@ -7,7 +7,7 @@ export default function Swimlane(props) {
                 <p className="opacity-[60%] text-gray-60 uppercase text-[12px]">{props.title} {props.tickets?.length}</p>
                 {
                     props?.tickets?.map(a => {
-                        return <Ticket key={a.ticketId} {...a}/>
+                        return <Ticket key={a.ticketId} {...a} onClickTicket={props.onClickTicket}/>
                     })
                 }
             </div>
