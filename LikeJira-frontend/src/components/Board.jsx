@@ -92,7 +92,7 @@ function Board(props) {
 
     return (
         <>
-            <div style={{ backgroundColor: displayPopup ? 'rgba(0,0,0,0.5)' : '#FFFFFF', zIndex: displayPopup ? '1' : '100' }}>
+            <div>
                 <Header filterByText={filterByText} />
                 <div className="flex justify-around">
                     <Swimlane title={'To Do'} tickets={TICKETS_IN_TODO} onClickTicket={onClickTicket} />
