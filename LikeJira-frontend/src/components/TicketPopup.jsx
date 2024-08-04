@@ -46,10 +46,9 @@ export default function TicketPopup({ ticketSelected, setDisplayPopup, displayPo
                     <div className="mt-[15px] w-full">
                         <p className="font-bold">Comments</p>
                         {
-                            ticketSelected?.comments?.map(comment => {
-                                console.log('>> comment', comment.text);
+                            ticketSelected?.comments?.length > 0 ? ticketSelected?.comments?.map(comment => {
                                 return <Comment comment={comment}/>
-                            })
+                            }) : <p className="text-[15px] text-gray-500">No comments posted yet.</p>
                         }
                     </div>
                 </div>

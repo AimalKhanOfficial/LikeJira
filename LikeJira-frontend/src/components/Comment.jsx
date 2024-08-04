@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function Comment(props) {
-    console.log('>>', props)
     return (
         <div className="border-[1px] bg-slate-100 p-[5px] mt-[5px] w-[99%]">
             <div className="flex justify-between text-gray-400 text-[12px]">
