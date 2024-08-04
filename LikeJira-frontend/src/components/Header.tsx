@@ -6,7 +6,9 @@ export default function Header({ filterByText }) {
             <p className="text-xl font-bold">Project Name</p>
             <div id="header-items-container" className="flex justify-start items-center mt-[5px]">
                 <input onChange={(e) => {
-                    filterByText(e.target.value)
+                    setTimeout(() => {
+                        filterByText(e.target.value)
+                    }, 500)
                 }} className="border border-solid p-[4px] bg-slate-200 w-[30%]" type="text" placeholder={'Search Tickets'} />
                 <p className="ml-[25px]">Only my issues</p>
                 <p className="ml-[25px]">Recently Updated</p>
