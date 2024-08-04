@@ -5,6 +5,7 @@ import TicketPopup from "./TicketPopup";
 import { getSwimLanesForATeam } from "../dbHanlder";
 
 function Board(props) {
+    const teamName = 'Migration team';
     const [TICKETS_IN_TODO, setTicketsInToDo] = useState([]);
     const [TICKETS_IN_PROGRESS, setTicketsInProgress] = useState([]);
     const [TICKETS_READY_FOR_REVIEW, setTicketsInReadyForReview] = useState([]);
@@ -102,10 +103,10 @@ function Board(props) {
     return (
         <>
             <div>
-                <Header filterByText={filterByText} />
+                <Header filterByText={filterByText} teamName={teamName} />
                 <div className="flex justify-around">
                     {
-                        getSwimLanesForATeam('Migration team').swimLanes.filter(swimLane => !swimLane.shouldHide).map(swimLane => {
+                        getSwimLanesForATeam(teamName).swimLanes.filter(swimLane => !swimLane.shouldHide).map(swimLane => {
                             return <Swimlane key={swimLane.id} title={swimLane.name} tickets={swimlanesToTicketsMap[swimLane.id]} onClickTicket={onClickTicket} displayPopup={displayPopup} />
                         })
                     }

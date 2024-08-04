@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Header({ filterByText }) {
+export default function Header({ filterByText, teamName }) {
     return (
         <div className="p-[10px]">
-            <p className="text-xl font-bold">Project Name</p>
+            <p className="text-xl font-bold">{teamName}</p>
             <div id="header-items-container" className="flex justify-start items-center mt-[5px]">
                 <input onChange={(e) => {
                     setTimeout(() => {
