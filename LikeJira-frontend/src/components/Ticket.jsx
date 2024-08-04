@@ -1,4 +1,4 @@
-export default function Ticket({ title, epicId, epicColorCode }) {
+export default function Ticket({ title, ticketId, epicId, epicColorCode }) {
     return (
         <div className="flex">
             <div className="bg-white p-[10px] mt-[10px] m-[5px] shadow-md w-full">
@@ -11,6 +11,11 @@ export default function Ticket({ title, epicId, epicColorCode }) {
                     style={{ backgroundColor: epicColorCode }}>
                     <p className="uppercase text-[10px] text-gray-600">
                         {epicId}
+                    </p>
+                </div>
+                <div id="ticket-number-container" className="mt-[5px]">
+                    <p className="uppercase text-[13px] text-gray-600">
+                        {ticketId}
                     </p>
                 </div>
             </div>
