@@ -160,5 +160,45 @@ const BOARD_STATE = [
     }
 ];
 
+const SWIM_LANES = [
+    {
+        teamName: 'Migration Team',
+        swimLanes: [
+            {
+                id: 1,
+                name: 'To Do',
+                shouldHide: false
+            },
+            {
+                id: 2,
+                name: 'In Progress',
+                shouldHide: false
+            },
+            {
+                id: 3,
+                name: 'Ready for Review',
+                shouldHide: false
+            },
+            {
+                id: 4,
+                name: 'In Review',
+                shouldHide: false
+            },
+            {
+                id: 5,
+                name: 'Done',
+                shouldHide: false
+            },
+            {
+                id: 6,
+                name: 'Rejected',
+                shouldHide: true
+            }
+        ]
+    }
+]
+
 
 export const getBoardState = () => BOARD_STATE;
+export const getAllSwimLanes = () => SWIM_LANES;
+export const getSwimLanesForATeam = (teamName) => SWIM_LANES.find(team => team.teamName.toLowerCase() === teamName.toLowerCase());

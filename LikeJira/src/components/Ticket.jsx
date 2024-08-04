@@ -1,7 +1,9 @@
 export default function Ticket(props) {
     return (
         <div className="flex" onClick={() => {
-            props.onClickTicket(props);
+            if (!props.displayPopup) {
+                props.onClickTicket(props);
+            }
         }}>
             <div className="bg-white p-[10px] mt-[10px] m-[5px] shadow-md w-full">
                 <div id="ticket-container">

@@ -28,7 +28,7 @@ export default function TicketPopup({ ticketSelected, setDisplayPopup, displayPo
                 </div>
                 <div>
                     <p onClick={() => {
-                        setDisplayPopup(!displayPopup)
+                        setDisplayPopup(!displayPopup);
                     }}>
                         X
                     </p>

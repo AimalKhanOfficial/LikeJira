@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Swimlane from "./SwimLane";
 import Header from "./Header";
 import TicketPopup from "./TicketPopup";
+import { getSwimLanesForATeam } from "../dbHanlder";
 
 function Board(props) {
     const [TICKETS_IN_TODO, setTicketsInToDo] = useState([]);
@@ -90,16 +91,24 @@ function Board(props) {
         hydrateFromDb();
     }, [])
 
+    const swimlanesToTicketsMap = {
+        1: TICKETS_IN_TODO,
+        2: TICKETS_IN_PROGRESS,
+        3: TICKETS_READY_FOR_REVIEW,
+        4: TICKETS_IN_REVIEW,
+        5: TICKETS_IN_DONE_OR_REJECTED
+    }
+
     return (
         <>
             <div>
                 <Header filterByText={filterByText} />
                 <div className="flex justify-around">
-                    <Swimlane title={'To Do'} tickets={TICKETS_IN_TODO} onClickTicket={onClickTicket} />
-                    <Swimlane title={'In Progress'} tickets={TICKETS_IN_PROGRESS} onClickTicket={onClickTicket} />
-                    <Swimlane title={'Ready for Review'} tickets={TICKETS_READY_FOR_REVIEW} onClickTicket={onClickTicket} />
-                    <Swimlane title={'In Review'} tickets={TICKETS_IN_REVIEW} onClickTicket={onClickTicket} />
-                    <Swimlane title={'Done/Rejected'} tickets={TICKETS_IN_DONE_OR_REJECTED} onClickTicket={onClickTicket} />
+                    {
+                        getSwimLanesForATeam('Migration team').swimLanes.filter(swimLane => !swimLane.shouldHide).map(swimLane => {
+                            return <Swimlane key={swimLane.id} title={swimLane.name} tickets={swimlanesToTicketsMap[swimLane.id]} onClickTicket={onClickTicket} displayPopup={displayPopup} />
+                        })
+                    }
                 </div>
             </div>
             <div style={{ display: displayPopup ? 'block' : 'none' }}>
