@@ -47,7 +47,7 @@ export default function TicketPopup({ ticketSelected, setDisplayPopup, displayPo
                         <p className="font-bold">Comments</p>
                         {
                             ticketSelected?.comments?.length > 0 ? ticketSelected?.comments?.map(comment => {
-                                return <Comment comment={comment}/>
+                                return <Comment key={comment.id} comment={comment}/>
                             }) : <p className="text-[15px] text-gray-500">No comments posted yet.</p>
                         }
                     </div>

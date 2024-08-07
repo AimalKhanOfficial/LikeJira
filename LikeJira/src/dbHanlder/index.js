@@ -82,11 +82,13 @@ const BOARD_STATE = [
                 statusId: 3,
                 comments: [
                     {
+                        id: 1,
                         text: 'Hi, this is currently being looked at',
                         postedDateTime: '08/04/24 3:21 AM EST',
                         commentedBy: 'John Doe'
                     },
                     {
+                        id: 2,
                         text: '2 - Hi, this is currently being looked at',
                         postedDateTime: '07/04/24 3:21 AM EST',
                         commentedBy: 'Jane Doe'

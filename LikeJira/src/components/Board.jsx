@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Swimlane from "./SwimLane";
 import Header from "./Header";
 import TicketPopup from "./TicketPopup";
@@ -19,13 +19,16 @@ function Board(props) {
         setDisplayPopup(true);
     }
 
-    const setState = (toDo, inProgress, readyForReview, inReview, doneOrRejected) => {
-        setTicketsInToDo(toDo);
-        setTicketsInProgress(inProgress);
-        setTicketsInReadyForReview(readyForReview);
-        setTicketsInReview(inReview);
-        setTicketsInDoneOrRejected(doneOrRejected);
-    }
+    const setState = useMemo(() => {
+        return (toDo, inProgress, readyForReview, inReview, doneOrRejected) => {
+            setTicketsInToDo(toDo);
+            setTicketsInProgress(inProgress);
+            setTicketsInReadyForReview(readyForReview);
+            setTicketsInReview(inReview);
+            setTicketsInDoneOrRejected(doneOrRejected);
+        }
+    }, [TICKETS_IN_TODO, TICKETS_IN_PROGRESS, TICKETS_READY_FOR_REVIEW, TICKETS_IN_REVIEW, TICKETS_IN_DONE_OR_REJECTED]);
+
 
     const searchAndOrganizePerArray = (tickets, toDo, inProgress, readyForReview, inReview, doneOrRejected) => {
         tickets.forEach(ticket => {
