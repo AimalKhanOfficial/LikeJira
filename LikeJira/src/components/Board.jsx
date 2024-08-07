@@ -3,6 +3,7 @@ import Swimlane from "./SwimLane";
 import Header from "./Header";
 import TicketPopup from "./TicketPopup";
 import { getSwimLanesForATeam } from "../dbHanlder";
+import { searchAndOrganizePerArray, pushObjToArr } from '../utils';
 
 function Board(props) {
     const teamName = 'Migration team';
@@ -29,23 +30,6 @@ function Board(props) {
         }
     }, [TICKETS_IN_TODO, TICKETS_IN_PROGRESS, TICKETS_READY_FOR_REVIEW, TICKETS_IN_REVIEW, TICKETS_IN_DONE_OR_REJECTED]);
 
-
-    const searchAndOrganizePerArray = (tickets, toDo, inProgress, readyForReview, inReview, doneOrRejected) => {
-        tickets.forEach(ticket => {
-            if (ticket.statusId === 1) {
-                toDo.push(ticket);
-            } else if (ticket.statusId === 2) {
-                inProgress.push(ticket);
-            } else if (ticket.statusId === 3) {
-                readyForReview.push(ticket);
-            } else if (ticket.statusId === 4) {
-                inReview.push(ticket);
-            } else if (ticket.statusId === 5) {
-                doneOrRejected.push(ticket);
-            }
-        });
-    }
-
     const filterByText = (searchTerm) => {
         if (searchTerm === '') {
             hydrateFromDb();
@@ -62,12 +46,6 @@ function Board(props) {
     }
 
     const hydrateFromDb = () => {
-        const pushObjToArr = (arr, ticket, epic) => arr.push({
-            ...ticket,
-            epicName: epic.name,
-            epicColorCode: epic.colorCode,
-            epicId: epic.epicId
-        });
         let inProgress = [];
         let toDo = [];
         let readyForReview = [];
