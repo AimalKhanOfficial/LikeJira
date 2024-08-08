@@ -5,10 +5,10 @@ const MegaNav = () => {
     const navigate = useNavigate();
 
     return <>
-        <button className='border-1 rounded bg-black text-white ml-[5px]' onClick={() => {
+        <button className='border-1 rounded bg-black text-white ml-[5px] p-[5px]' onClick={() => {
             navigate('/');
         }}>Home</button>
-        <button className='border-1 rounded bg-black text-white ml-[5px]' onClick={() => {
+        <button className='border-1 rounded bg-black text-white ml-[5px] p-[5px]' onClick={() => {
             navigate('backlog');
         }}>Backlog</button>
     </>

@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import Swimlane from "./SwimLane";
 import Header from "./Header";
 import TicketPopup from "./TicketPopup";
 import { getSwimLanesForATeam } from "../dbHanlder";
 import { searchAndOrganizePerArray, pushObjToArr } from '../utils';
+import PopupContext from '../providers/PopupContext';
 
 function Board(props) {
     const teamName = 'Migration team';
@@ -30,7 +31,7 @@ function Board(props) {
         }
     }, [TICKETS_IN_TODO, TICKETS_IN_PROGRESS, TICKETS_READY_FOR_REVIEW, TICKETS_IN_REVIEW, TICKETS_IN_DONE_OR_REJECTED]);
 
-    const filterByText = (searchTerm) => {
+    const filterByText = useCallback((searchTerm) => {
         if (searchTerm === '') {
             hydrateFromDb();
             return;
@@ -43,7 +44,8 @@ function Board(props) {
         const searchTickets = [...TICKETS_IN_TODO, ...TICKETS_IN_PROGRESS, ...TICKETS_READY_FOR_REVIEW, ...TICKETS_IN_REVIEW, ...TICKETS_IN_DONE_OR_REJECTED].filter(ticket => ticket.title.toLowerCase().includes(searchTerm.toLowerCase()));
         searchAndOrganizePerArray(searchTickets, toDo, inProgress, readyForReview, inReview, doneOrRejected);
         setState(toDo, inProgress, readyForReview, inReview, doneOrRejected);
-    }
+    }, []);
+
 
     const hydrateFromDb = () => {
         let inProgress = [];
@@ -73,22 +75,26 @@ function Board(props) {
         hydrateFromDb();
     }, [])
 
-    const swimlanesToTicketsMap = {
+    const swimlanesToTicketsMap = useMemo(() => ({
         1: TICKETS_IN_TODO,
         2: TICKETS_IN_PROGRESS,
         3: TICKETS_READY_FOR_REVIEW,
         4: TICKETS_IN_REVIEW,
         5: TICKETS_IN_DONE_OR_REJECTED
-    }
+    }), [TICKETS_IN_TODO, TICKETS_IN_PROGRESS, TICKETS_READY_FOR_REVIEW, TICKETS_IN_REVIEW, TICKETS_IN_DONE_OR_REJECTED]);
+
+    const swimLanesObj = useMemo(() => {
+        return getSwimLanesForATeam(teamName).swimLanes.filter(swimLane => !swimLane.shouldHide);
+    }, [teamName]);
 
     return (
-        <>
+        <PopupContext.Provider value={{ onClickTicket, displayPopup }} >
             <div>
                 <Header filterByText={filterByText} teamName={teamName} />
                 <div className="flex justify-around">
                     {
-                        getSwimLanesForATeam(teamName).swimLanes.filter(swimLane => !swimLane.shouldHide).map(swimLane => {
-                            return <Swimlane key={swimLane.id} title={swimLane.name} tickets={swimlanesToTicketsMap[swimLane.id]} onClickTicket={onClickTicket} displayPopup={displayPopup} />
+                        swimLanesObj.map(swimLane => {
+                            return <Swimlane key={swimLane.id} title={swimLane.name} tickets={swimlanesToTicketsMap[swimLane.id]} />
                         })
                     }
                 </div>
@@ -96,7 +102,7 @@ function Board(props) {
             <div style={{ display: displayPopup ? 'block' : 'none' }}>
                 <TicketPopup ticketSelected={ticketSelected} setDisplayPopup={setDisplayPopup} displayPopup={displayPopup} />
             </div>
-        </>
+        </PopupContext.Provider>
     );
 }
 export default Board;
