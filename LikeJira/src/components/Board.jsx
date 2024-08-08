@@ -31,7 +31,7 @@ function Board(props) {
         }
     }, [TICKETS_IN_TODO, TICKETS_IN_PROGRESS, TICKETS_READY_FOR_REVIEW, TICKETS_IN_REVIEW, TICKETS_IN_DONE_OR_REJECTED]);
 
-    const filterByText = useCallback((searchTerm) => {
+    const filterByText = (searchTerm) => {
         if (searchTerm === '') {
             hydrateFromDb();
             return;
@@ -44,7 +44,7 @@ function Board(props) {
         const searchTickets = [...TICKETS_IN_TODO, ...TICKETS_IN_PROGRESS, ...TICKETS_READY_FOR_REVIEW, ...TICKETS_IN_REVIEW, ...TICKETS_IN_DONE_OR_REJECTED].filter(ticket => ticket.title.toLowerCase().includes(searchTerm.toLowerCase()));
         searchAndOrganizePerArray(searchTickets, toDo, inProgress, readyForReview, inReview, doneOrRejected);
         setState(toDo, inProgress, readyForReview, inReview, doneOrRejected);
-    }, []);
+    }
 
 
     const hydrateFromDb = () => {
