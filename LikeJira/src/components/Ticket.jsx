@@ -2,11 +2,21 @@ import { memo } from "react";
 import { popUpStateAtom } from "../store/atoms/popupDisplayAtom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { xAtom } from "../store/atoms/xAtom";
+import { useDraggable } from '@dnd-kit/core';
+
 const Ticket = memo(({ description, epicColorCode, epicId, epicName, statusId, storyPoints, ticketId, title }) => {
     const onClickTicket = useSetRecoilState(xAtom);
     const [displayPopup, setDisplayPopup] = useRecoilState(popUpStateAtom);
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+        id: ticketId,
+    });
+    const style = transform ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+    } : undefined;
+
+
     return (
-        <div className="flex" onClick={() => {
+        <div className="flex" ref={setNodeRef} style={style} {...listeners} {...attributes} onClick={() => {
             setDisplayPopup(setDisplayPopup => !setDisplayPopup);
             if (!displayPopup) {
                 onClickTicket({ description, epicColorCode, epicId, epicName, statusId, storyPoints, ticketId, title });

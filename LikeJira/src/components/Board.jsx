@@ -9,6 +9,7 @@ import { popUpStateAtom } from "../store/atoms/popupDisplayAtom";
 import { xAtom } from "../store/atoms/xAtom";
 
 function Board(props) {
+    console.log(">>> here")
     const teamName = 'Migration team';
     const [TICKETS_IN_TODO, setTicketsInToDo] = useState([]);
     const [TICKETS_IN_PROGRESS, setTicketsInProgress] = useState([]);
@@ -99,7 +100,7 @@ function Board(props) {
                 <div className="flex justify-around">
                     {
                         swimLanesObj.map(swimLane => {
-                            return <Swimlane key={swimLane.id} title={swimLane.name} tickets={swimlanesToTicketsMap[swimLane.id]} />
+                            return <Swimlane key={swimLane.id} title={swimLane.name} id={swimLane.id} tickets={swimlanesToTicketsMap[swimLane.id]} />
                         })
                     }
                 </div>
