@@ -1,10 +1,13 @@
-import { useContext, memo } from "react";
-import PopupContext from "../providers/PopupContext";
+import { memo } from "react";
+import { popUpStateAtom } from "../store/atoms/popupDisplayAtom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { xAtom } from "../store/atoms/xAtom";
 const Ticket = memo(({ description, epicColorCode, epicId, epicName, statusId, storyPoints, ticketId, title }) => {
-    const { onClickTicket, displayPopup } = useContext(PopupContext);
-
+    const onClickTicket = useSetRecoilState(xAtom);
+    const [displayPopup, setDisplayPopup] = useRecoilState(popUpStateAtom);
     return (
         <div className="flex" onClick={() => {
+            setDisplayPopup(setDisplayPopup => !setDisplayPopup);
             if (!displayPopup) {
                 onClickTicket({ description, epicColorCode, epicId, epicName, statusId, storyPoints, ticketId, title });
             }

@@ -4,7 +4,9 @@ import Header from "./Header";
 import TicketPopup from "./TicketPopup";
 import { getSwimLanesForATeam } from "../dbHanlder";
 import { searchAndOrganizePerArray, pushObjToArr } from '../utils';
-import PopupContext from '../providers/PopupContext';
+import { useRecoilState, useRecoilValue } from "recoil";
+import { popUpStateAtom } from "../store/atoms/popupDisplayAtom";
+import { xAtom } from "../store/atoms/xAtom";
 
 function Board(props) {
     const teamName = 'Migration team';
@@ -13,13 +15,17 @@ function Board(props) {
     const [TICKETS_READY_FOR_REVIEW, setTicketsInReadyForReview] = useState([]);
     const [TICKETS_IN_REVIEW, setTicketsInReview] = useState([]);
     const [TICKETS_IN_DONE_OR_REJECTED, setTicketsInDoneOrRejected] = useState([]);
-    const [displayPopup, setDisplayPopup] = useState(false);
-    const [ticketSelected, setTicketSelected] = useState({});
+    //const xy = useRecoilValue(xAtom);
+    const [displayPopup, setDisplayPopup] = useRecoilState(popUpStateAtom);
 
-    const onClickTicket = (ticketDetails) => {
-        setTicketSelected(ticketDetails);
-        setDisplayPopup(true);
-    }
+    //fails here
+    //const [yy, setXy] = useRecoilState(xAtom);
+
+
+    // const onClickTicket = (ticketDetails) => {
+    //     setTicketSelected(ticketDetails);
+    //     setDisplayPopup(true);
+    // }
 
     const setState = useMemo(() => {
         return (toDo, inProgress, readyForReview, inReview, doneOrRejected) => {
@@ -86,9 +92,8 @@ function Board(props) {
     const swimLanesObj = useMemo(() => {
         return getSwimLanesForATeam(teamName).swimLanes.filter(swimLane => !swimLane.shouldHide);
     }, [teamName]);
-
     return (
-        <PopupContext.Provider value={{ onClickTicket, displayPopup }} >
+        <div>
             <div>
                 <Header filterByText={filterByText} teamName={teamName} />
                 <div className="flex justify-around">
@@ -100,9 +105,9 @@ function Board(props) {
                 </div>
             </div>
             <div style={{ display: displayPopup ? 'block' : 'none' }}>
-                <TicketPopup ticketSelected={ticketSelected} setDisplayPopup={setDisplayPopup} displayPopup={displayPopup} />
+                <TicketPopup ticketSelected={{}} setDisplayPopup={setDisplayPopup} displayPopup={displayPopup} />
             </div>
-        </PopupContext.Provider>
+        </div>
     );
 }
 export default Board;

@@ -2,6 +2,7 @@ import { memo } from "react";
 import Ticket from "./Ticket";
 
 const SwimLane = memo(function Swimlane({title, tickets}) {
+    console.log('>> hereherehere')
     return (
         <div className="flex">
             <div className="h-[800px] w-[320px] max-w-[320px] bg-gray-200 p-[8px]">
